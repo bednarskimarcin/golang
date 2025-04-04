@@ -14,6 +14,28 @@ type User struct {
 	createdAt time.Time
 }
 
+type Admin struct {
+	email    string
+	password string
+	User     // embedding struct - Admin has all fields of User struct
+	// user User // alternative way of embedding struct
+	//All the methods of User struct are available in Admin struct
+	// user.OutputUserDetails() - this way of calling method is not needed in Admin struct
+}
+
+func NewAdmin(email, password string) Admin {
+	return Admin{
+		email:    email,
+		password: password,
+		User: User{
+			firstName: "Admin",
+			lastName:  "Admin",
+			birthdate: "-/-/-",
+			createdAt: time.Now(),
+		},
+	}
+}
+
 // Adding a method to the user struct.
 // It's declared outside the struct body. The (user) between func and name makes the attachement.
 // That part of the code is named "receiver argument"

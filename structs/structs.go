@@ -6,7 +6,16 @@ import (
 	"pl.mbednarski/structs/user"
 )
 
+type str string // custom type - alias for string
+
+func (s str) log() { // method for custom type
+	fmt.Println("Logging:", s)
+}
+
 func main() {
+	var s str = "Hello" // variable of custom type
+	s.log()             // calling method for custom type
+
 	firstName := getUserData("Please enter your first name: ")
 	lastName := getUserData("Please enter your last name: ")
 	birthdate := getUserData("Please enter your birthdate (MM/DD/YYYY): ")
@@ -18,6 +27,9 @@ func main() {
 		fmt.Print(err)
 		return
 	}
+
+	admin := user.NewAdmin("mb@mbednarski.pl", "123456")
+	admin.OutputUserDetails()
 
 	//outputUserDetails(&appUser)
 	appUser.OutputUserDetails()
