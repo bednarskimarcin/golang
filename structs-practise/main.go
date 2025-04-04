@@ -1,46 +1,34 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 )
 
 func main() {
-	title, content, err := getNoteData()
+	title, content := getNoteData()
+
+	userNote, err := Note.New(title, content)
+
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println(err)
 		return
 	}
 
-	fmt.Println("Note Title:", title)
-	fmt.Println("Note Content:", content)
+	// fmt.Println("Note Title:", title)
+	// fmt.Println("Note Content:", content)
 }
 
-func getNoteData() (string, string, error) {
-	title, err := getUserInput("Note title: ")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return "", "", err
-	}
+func getNoteData() (string, string) {
+	title := getUserInput("Note title: ")
 
-	content, err := getUserInput("Note content: ")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return "", "", err
-	}
+	content := getUserInput("Note content: ")
 
-	return title, content, nil
+	return title, content
 }
 
-func getUserInput(promptText string) (string, error) {
-	var userInput string
+func getUserInput(promptText string) string {
+
 	print(promptText)
-	fmt.Scanln(&userInput)
 
-	if userInput == "" {
-		// return "", fmt.Errorf("input cannot be empty")
-		return "", errors.New("input cannot be empty")
-	}
-
-	return userInput, nil
+	return value
 }
