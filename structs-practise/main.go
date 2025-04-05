@@ -1,21 +1,32 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strings"
+
+	"pl.mbednarski/note/note"
 )
 
 func main() {
 	title, content := getNoteData()
 
-	userNote, err := Note.New(title, content)
+	userNote, err := note.New(title, content)
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	// fmt.Println("Note Title:", title)
-	// fmt.Println("Note Content:", content)
+	userNote.Display()
+	err = userNote.Save()
+	if err != nil {
+		fmt.Println("Saving the note failed")
+		return
+	}
+
+	fmt.Println("Saving the note succeeded")
 }
 
 func getNoteData() (string, string) {
@@ -27,8 +38,15 @@ func getNoteData() (string, string) {
 }
 
 func getUserInput(promptText string) string {
+	fmt.Printf("%v ", promptText)
 
-	print(promptText)
+	reader := bufio.NewReader(os.Stdin)
+	text, err := reader.ReadString('\n') //Delimiter sign - terminates reading. Single qoutes "rune"
 
-	return value
+	if err != nil {
+		return ""
+	}
+	text = strings.TrimSuffix(text, "\n") //remove final linebreak
+	text = strings.TrimSuffix(text, "\r")
+	return text
 }
